@@ -109,10 +109,10 @@ spring.datasource.password=<your-password>
 To start the API, run the following command:
 
 MacOS / Git Bash
-```.mvnw spring-boot:run```
+```./mvnw spring-boot:run```
 
 Windows Command Prompt
-```mvnw spring-boot:run```
+```./mvnw spring-boot:run```
 
 If successful, you should see output that ends similarly to the following:
 
