@@ -31,26 +31,21 @@ src
 │   │   │   │   ├── WeGroceriesApplication.java   # Main application entry point
 │   │   │   │   ├── config                        # Configuration classes
 │   │   │   │   ├── common                        # Common utilities and error handling
-│   │   │   │   ├── authentication                # Authentication feature
-│   │   │   │   │   ├── controller                # Controllers for auth
-│   │   │   │   │   ├── service                   # Services for auth logic
-│   │   │   │   │   ├── model                     # Models for auth (e.g., User)
-│   │   │   │   │   └── repository                # Repositories for auth (e.g., UserRepository)
-│   │   │   │   ├── product                       # Product feature
-│   │   │   │   │   ├── controller                # Controllers for products
-│   │   │   │   │   ├── service                   # Services for products logic
-│   │   │   │   │   ├── model                     # Models for product (e.g., Product)
-│   │   │   │   │   └── repository                # Repositories for product (e.g., ProductRepository)
-│   │   │   │   ├── order                         # Order feature
-│   │   │   │   │   ├── controller                # Controllers for orders
-│   │   │   │   │   ├── service                   # Services for orders logic
-│   │   │   │   │   ├── model                     # Models for order (e.g., Order, OrderItem)
-│   │   │   │   │   └── repository                # Repositories for orders (e.g., OrderRepository)
-│   │   │   │   ├── user                          # User feature
-│   │   │   │   │   ├── controller                # Controllers for users
-│   │   │   │   │   ├── service                   # Services for users logic
-│   │   │   │   │   ├── model                     # Models for user (e.g., User)
-│   │   │   │   │   └── repository                # Repositories for users (e.g., UserRepository)
+│   │   │   │   ├── products                      # Product feature
+│   │   │   │   │   ├── Product.java              # Models for product (e.g., Product)
+│   │   │   │   │   ├── ProductController.java    # Controllers for products
+│   │   │   │   │   ├── ProductService.java       # Services for products logic
+│   │   │   │   │   └── ProductRepository.java    # Repositories for product (e.g., ProductRepository)
+│   │   │   │   ├── orders                        # Order feature
+│   │   │   │   │   ├── Order.java                # Models for order (e.g., Order, OrderItem)
+│   │   │   │   │   ├── OrderController.java      # Controllers for orders
+│   │   │   │   │   ├── OrderService.java         # Services for orders logic
+│   │   │   │   │   └── OrderRepository.java      # Repositories for orders (e.g., OrderRepository)
+│   │   │   │   ├── users                         # User feature
+│   │   │   │   │   ├── User.java                 # Models for user (e.g., User)
+│   │   │   │   │   ├── UserController.java       # Controllers for users
+│   │   │   │   │   ├── UserRepository.java       # Repositories for users (e.g., UserRepository)
+│   │   │   │   │   ├── UserService.java          # Services for users logic
 │   │   │   │   ├── exception                     # Global exceptions
 │   │   │   │   └── util                          # Common utilities (e.g., DateUtil, PasswordValidator)
 │   ├── resources
@@ -58,7 +53,74 @@ src
 └── pom.xml                                       # Maven build file with dependencies
 ```
 
+
+src/
+├── main/
+│   ├── java/
+│   │   └── com/
+│   │       └── wegroceries/
+│   │           ├── WeGroceriesApplication.java       # Main class (root package)
+│   │           │
+│   │           ├── config/
+│   │           │   └── SwaggerConfig.java            # OpenAPI/Swagger configuration
+│   │           │
+│   │           ├── security/
+│   │           │   ├── config/
+│   │           │   │   └── WebSecurityConfig.java    # Security configuration
+│   │           │   ├── jwt/
+│   │           │   │   ├── JwtAuthFilter.java        # JWT Authentication Filter
+│   │           │   │   └── JwtUtils.java             # JWT generation/validation
+│   │           │   ├── service/
+│   │           │   │   └── CustomUserDetailsService.java # UserDetailsService impl
+│   │           │   ├── exception/
+│   │           │   │   └── AuthEntryPointJwt.java    # Authentication exception handler
+│   │           │   └── dto/
+│   │           │       ├── LoginRequest.java         # Auth request DTO
+│   │           │       └── SignupRequest.java        # Registration DTO
+│   │           │
+│   │           ├── users/
+│   │           │   ├── User.java                     # User entity
+│   │           │   ├── UserController.java           # User management endpoints
+│   │           │   ├── UserService.java              # User business logic
+│   │           │   ├── UserRepository.java           # User data access
+│   │           │   └── dto/
+│   │           │       └── UserResponse.java         # User response DTO
+│   │           │
+│   │           ├── products/
+│   │           │   ├── Product.java                  # Product entity
+│   │           │   ├── ProductController.java        # Product endpoints
+│   │           │   ├── ProductService.java           # Product business logic
+│   │           │   └── ProductRepository.java        # Product data access
+│   │           │
+│   │           ├── orders/
+│   │           │   ├── Order.java                    # Order entity
+│   │           │   ├── OrderController.java          # Order endpoints
+│   │           │   ├── OrderService.java             # Order processing
+│   │           │   └── OrderRepository.java          # Order data access
+│   │           │
+│   │           ├── common/
+│   │           │   ├── exception/
+│   │           │   │   ├── GlobalExceptionHandler.java # Global exception handler
+│   │           │   │   └── ErrorResponse.java        # Error response DTO
+│   │           │   └── util/
+│   │           │       └── DateUtils.java            # Utility classes
+│   │           │
+│   ├── resources/
+│   │   ├── application.properties                    # Main configuration
+│   │   ├── application-dev.properties                # Dev environment config
+│   │   └── application-prod.properties               # Prod environment config
+│   │
+└── pom.xml                                           # Maven dependencies
+
+
 ## API Endpoints
+- POST /api/users: Creates a new user.
+- GET /api/users/{id}: Retrieves a user by ID.
+- GET /api/users: Fetches all users.
+- PUT /api/users/{id}: Updates an existing user by ID.
+- DELETE /api/users/{id}: Deletes a user by ID.
+- GET /api/users/exists/username/{username}: Checks if a username exists.
+- GET /api/users/exists/email/{email}: Checks if an email exists.
 
 ### Authentication
 - POST /api/auth/register: Register a new user
@@ -68,12 +130,14 @@ src
 - GET /api/users/{id}: Retrieve user details
 
 ### Product Management
-- GET /api/products: List all products
-- POST /api/products: Add a new product
-- GET /api/products/{id}: Get product details
-- PUT /api/products/{id}: Update product details
-- DELETE /api/products/{id}: Delete a product
--
+Method	 Endpoint	                        Description
+- POST	 /api/groceries	                    Add a new grocery
+- GET	 /api/groceries	                    Get all groceries
+- GET	 /api/groceries/{id}                Get a grocery by ID
+- GET	 /api/groceries/category/{category}	Get groceries by - category
+- PUT	 /api/groceries/{id}	            Update a grocery
+- DELETE /api/groceries/{id}	            Delete a grocery
+
 ### Order Management
 
 - POST /api/orders: Create a new order

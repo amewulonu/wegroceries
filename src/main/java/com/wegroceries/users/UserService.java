@@ -1,0 +1,79 @@
+package com.wegroceries.users;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // Create or save a user
+    public Users createUser(Users user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+        return userRepository.save(user);
+    }
+
+    // Get a user by ID
+    public Users getUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+    }
+
+    // Get a user by username
+    public Optional<Users> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    // Get all users
+    public List<Users> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    // Update a user
+    public Users updateUser(UUID id, Users updatedUser) {
+        Users existingUser = getUserById(id);
+
+        // Update fields
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setPassword(updatedUser.getPassword()); // Ensure password is hashed before saving
+
+        return userRepository.save(existingUser);
+    }
+
+    // Delete a user by ID
+    public void deleteUser(UUID id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
+        userRepository.deleteById(id);
+    }
+
+    // Check if a username exists
+    public boolean usernameExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    // Check if an email exists
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+}
+
