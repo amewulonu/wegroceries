@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import com.wegroceries.exception.ResourceNotFoundException; // Ensure this class exists in the specified package
-// If the class does not exist, create it in the specified package
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +16,8 @@ public class GlobalExceptionHandler {
     // Handle validation errors
     @ExceptionHandler(org.springframework.validation.BindException.class)
     public ResponseEntity<List<String>> handleValidationException(BindingResult result) {
-        // Collecting error messages for field validation failures
+    
+    // Collecting error messages for field validation failures
         List<String> errorMessages = result.getAllErrors().stream()
                 .map(error -> {
                     String fieldName = ((FieldError) error).getField();
@@ -26,7 +25,7 @@ public class GlobalExceptionHandler {
                 })
                 .collect(Collectors.toList());
 
-        // Return a BAD_REQUEST status with error messages
+    // Return a BAD_REQUEST status with error messages
         return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
     }
 

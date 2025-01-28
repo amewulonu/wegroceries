@@ -22,9 +22,9 @@ public class UserController {
     // Create a new user
     @SuppressWarnings("null")
     @PostMapping
-    public ResponseEntity<Users> createUser(@RequestBody Users user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
-            Users createdUser = userService.createUser(user);
+            User createdUser = userService.createUser(user);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -33,9 +33,9 @@ public class UserController {
 
     // Get a user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Users> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         try {
-            Users user = userService.getUserById(id);
+            User user = userService.getUserById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -44,17 +44,17 @@ public class UserController {
 
     // Get all users
     @GetMapping
-    public ResponseEntity<List<Users>> getAllUsers() {
-        List<Users> users = userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Update a user
     @SuppressWarnings("null")
     @PutMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable UUID id, @RequestBody Users user) {
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User user) {
         try {
-            Users updatedUser = userService.updateUser(id, user);
+            User updatedUser = userService.updateUser(id, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

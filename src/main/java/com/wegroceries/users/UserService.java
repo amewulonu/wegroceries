@@ -18,7 +18,7 @@ public class UserService {
     }
 
     // Create or save a user
-    public Users createUser(Users user) {
+    public User createUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("Username already exists.");
         }
@@ -29,32 +29,32 @@ public class UserService {
     }
 
     // Get a user by ID
-    public Users getUserById(UUID id) {
+    public User getUserById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
     }
 
     // Get a user by username
-    public Optional<Users> getUserByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     // Get all users
-    public List<Users> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     // Update a user
-    public Users updateUser(UUID id, Users updatedUser) {
-        Users existingUser = getUserById(id);
+    public User updateUser(UUID id, User updatedUser) {
+        User existingUser = getUserById(id);
 
         // Update fields
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setPassword(updatedUser.getPassword()); // Ensure password is hashed before saving
-
+        existingUser.setPassword(updatedUser.getPassword()); 
+        
         return userRepository.save(existingUser);
     }
 

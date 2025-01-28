@@ -12,16 +12,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.wegroceries.service.UserDetailsServiceImpl;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userService;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userService = userDetailsService;
     }
 
     @Bean
@@ -34,7 +36,7 @@ public class SecurityConfig {
         AuthenticationManagerBuilder authenticationManagerBuilder = 
             http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
-            .userDetailsService(userDetailsService)
+                    .userDetailsService(userService)
             .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
