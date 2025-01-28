@@ -1,11 +1,6 @@
 package com.wegroceries.orders;
 
-import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class OrderRepository {
-
-    public Object findById(UUID id) {
-                throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
